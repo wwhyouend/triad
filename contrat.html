@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Triad - Demande de contrat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #222;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    pre {
+      font-size: 0.8rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input, textarea, button {
+      background-color: #fff;
+      color: #222;
+      border: 1px solid #222;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    #confirmation {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <pre>
+                                                                   ,-,
+                                                             _.-=;~ /_
+                                                          _-~   '     ;.
+                                                      _.-~     '   .-~-~`-._
+                                                _.--~~:.             --.____88
+                              ____.........--~~~. .' .  .        _..-------~~
+                     _..--~~~~               .' .'             ,'
+                 _.-~                        .       .     ` ,'
+               .'                                    :.    ./
+             .:     ,/          `                   ::.   ,'
+           .:'     ,(            ;.                ::. ,-'
+          .'     ./'.`.     . . /:::._______.... _/:.o/
+         /     ./'. . .)  . _.,'               `88;?88|
+       ,'  . .,/'._,-~ /_.o8P'                  88P ?8b
+    _,'' . .,/',-~    d888P'                    88'  88|
+ _.'~  . .,:oP'        ?88b              _..--- 88.--'8b.--..__
+:     ...' 88o __,------.88o ...__..._.=~- .    `~~   `~~      ~-._ Triad _.
+`.;;;:='    ~~            ~~~                ~-    -       -   -
+  </pre>
+
+  <form id="contractForm">
+    <label>Nom :</label>
+    <input type="text" name="nom" required>
+
+    <label>Discord :</label>
+    <input type text name="discord" required>
+
+    <label>Email :</label>
+    <input type="email" name="email" required>
+
+    <label for="motivation">Motivation :</label>
+    <textarea name="motivation" rows="3" required></textarea>
+
+    <label>Description du contrat :</label>
+    <textarea name="description" rows="4" required></textarea>
+
+    <button type="submit">[ ENVOYER LA DEMANDE ]</button>
+  </form>
+
+  <div id="confirmation"></div>
+
+  <script>
+    const webhookURL = "https://discord.com/api/webhooks/1411398717033939138/ISL2uwLNckrVZIUGpFEkIvJo-jhHqPbNDPx7ZkI-54zW3dxr6iTz3ZmeypP3Bz5WLZCq";
+
+    document.getElementById("contractForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nom = e.target.nom.value;
+      const discord = e.target.discord.value;
+      const email = e.target.email.value;
+      const motivation = e.target.motivation.value;
+      const description = e.target.description.value;
+{}
+      const payload = {
+        content: `📥 Nouvelle demande de contrat\n Nom: **${nom}**\n Discord:**${discord}**\n Email: **${email}**\n Motivation: \n*${motivation}*\n Description:\n*${description}*`
+      };
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("confirmation").textContent = "0 - Vôtre demande est en cours de traitement, merci de checker vos mails dans les 48h.";
+          e.target.reset();
+        } else {
+          document.getElementById("confirmation").textContent = "1 - Envois impossible..";
+        }
+      })
+      .catch(error => {
+        console.error("Erreur:", error);
+        document.getElementById("confirmation").textContent = "404 - Réseau surcharger ou indisponible.";
+      });
+    });
+  </script>
+
+  <div class="footer">© 2025 Triad — Tous droits réservés | Merci d'inscrire correctement vos conditions dans vôtre description de contrat. Pour toute demande, rendez vous sur le <a href="https://discord.gg/vjxZr4CAbT">discord/ticket</a> Triad.</div>
+  <style>
+  .footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #666;
+    font-family: 'Courier New', Courier, monospace;
+  }
+</style>
+
+</body>
+</html>
